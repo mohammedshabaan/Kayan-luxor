@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>إنشاء بطاقة العضوية</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="form-page">
+  <main class="form-shell">
+    <header class="brand-row">
+      <img src="assets/ministry-logo.jpeg" alt="شعار وزارة الشباب والرياضة">
+      <img src="assets/federation-logo.jpeg" alt="شعار الاتحاد المصري للكيانات الشبابية">
+      <img src="assets/55.jpeg" alt="شباب" srcset="">
+    </header>
+    <section class="form-card">
+      <span class="eyebrow">الاتحاد المصري للكيانات الشبابية</span>
+      <h1>أنشئ بطاقتك التعريفية</h1>
+      <p class="intro">اكتب اسم العضو وارفع صورته الشخصية، ثم اعرض البطاقة واحفظها أو اطبعها.</p>
+      <form id="memberForm">
+        <label for="memberName">اسم العضو</label>
+        <input id="memberName" name="memberName" type="text" maxlength="80" placeholder="اكتب الاسم رباعيًا إن أمكن" required>
+        <label for="memberPhoto">الصورة الشخصية</label>
+        <input id="memberPhoto" name="memberPhoto" type="file" accept="image/*" required>
+        <div class="preview-wrap">
+          <img id="photoPreview" alt="معاينة الصورة الشخصية" hidden>
+          <span id="previewHint">ستظهر معاينة الصورة هنا</span>
+        </div>
+        <button type="submit" class="primary-btn">إنشاء البطاقة ←</button>
+      </form>
+      <p class="privacy-note">تُنشأ البطاقة داخل المتصفح على هذا الجهاز؛ لا يتم رفع الصورة إلى خادم بواسطة هذا النموذج.</p>
+    </section>
+  </main>
+  <script>
+    const form = document.getElementById('memberForm');
+    const photoInput = document.getElementById('memberPhoto');
+    const preview = document.getElementById('photoPreview');
+    const hint = document.getElementById('previewHint');
+    let photoData = '';
+
+    photoInput.addEventListener('change', () => {
+      const file = photoInput.files && photoInput.files[0];
+      if (!file) return;
+      if (!file.type.startsWith('image/')) {
+        alert('من فضلك اختر ملف صورة صالحًا.');
+        photoInput.value = '';
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        photoData = reader.result;
+        preview.src = photoData;
+        preview.hidden = false;
+        hint.hidden = true;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const name = document.getElementById('memberName').value.trim();
+      const file = photoInput.files && photoInput.files[0];
+      if (!name || !file || !photoData) {
+        alert('اكتب اسم العضو واختر الصورة الشخصية أولًا.');
+        return;
+      }
+      try {
+        sessionStorage.setItem('memberCardName', name);
+        sessionStorage.setItem('memberCardPhoto', photoData);
+        window.location.href = 'card.html';
+      } catch (e) {
+        alert('الصورة كبيرة جدًا. اختر صورة أصغر ثم حاول مرة أخرى.');
+      }
+    });
+  </script>
+</body>
+</html>

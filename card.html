@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>بطاقة العضو</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="card-page">
+  <main class="card-layout">
+    <div class="toolbar">
+      <a class="secondary-btn" href="index.html">← تعديل البيانات</a>
+      <button class="primary-btn" onclick="window.print()">طباعة / حفظ PDF</button>
+    </div>
+    <article class="membership-card" id="membershipCard">
+      <div class="card-top-logos">
+        <img src="assets/ministry-logo.jpeg" alt="شعار وزارة الشباب والرياضة">
+        <img src="assets/federation-logo.jpeg" alt="شعار الاتحاد المصري للكيانات الشبابية">
+         <img src="assets/55.jpeg" alt="شباب" srcset="">
+      </div>
+      <div class="card-label">بطاقة تعريفية للعضو</div>
+      <div class="patriotic-message">
+        <div>مصر هويتي، والانتماء لها شرف،</div>
+        <div>والولاء لها عهد، وخدمة وطني واجب.</div>
+        <strong>تحيا مصر 🇪🇬 بحبك يا مصر</strong>
+      </div>
+      <div class="member-area">
+        <div class="portrait-frame">
+          <img id="memberPhoto" alt="الصورة الشخصية للعضو">
+        </div>
+        <div class="member-info">
+          <span class="field-label">اسم العضو</span>
+          <h1 id="memberName">اسم العضو</h1>
+          <div class="role">رئيس الاتحاد</div>
+          <div class="president-name">م. إسلام الدهرين</div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span>الاتحاد المصري للكيانات الشبابية</span>
+      </div>
+    </article>
+    <p class="help-text">لأفضل نتيجة، اختر «طباعة / حفظ PDF»، ثم اجعل اتجاه الطباعة أفقيًا وأوقف رؤوس وتذييلات المتصفح إن ظهرت.</p>
+  </main>
+  <script>
+    const name = sessionStorage.getItem('memberCardName');
+    const photo = sessionStorage.getItem('memberCardPhoto');
+    if (!name || !photo) {
+      document.querySelector('.membership-card').innerHTML =
+        '<div class="missing-data"><h2>لا توجد بيانات للبطاقة</h2><p>ارجع إلى الصفحة الأولى وأدخل اسم العضو والصورة.</p><a class="primary-btn" href="index.html">العودة لإدخال البيانات</a></div>';
+    } else {
+      document.getElementById('memberName').textContent = name;
+      document.getElementById('memberPhoto').src = photo;
+    }
+  </script>
+</body>
+</html>
